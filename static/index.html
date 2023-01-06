@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,5 +9,155 @@
   </head>
   <body>
     <h1>CRM Backend</h1>
+    <hr>
+    <br>
+    <p>
+      Welcome to the CRM Backend application!, this is the implementation of a basic Go web server emulating the backend of a simple CRM application, it serves a REST API with which users can interact by sending HTTP requests in order to perform CRUD operations in the CRM. This application was written as a final project for the <a href="https://www.udacity.com/course/golang--cd11970">Udacity Golang Course</a>. For more details about the project please visit its Github page.
+    </p>
+
+    <h2>Customer Data Fields</h2>
+    <p>
+      Each of the customers in the CRM has the data fields listed in the following list. The data types indicated for each field are Golang types:
+    </p>
+    <ul>
+      <li>
+        <b>ID: </b>ID of the customer. Each customer has a unique identifier which is an <b>UUID</b> composed of 5 dash-separated groups of hexadecimal digits arranged this way: 1 group of 8 hexadecimal digits, followed by 3 groups of 4 hexadecimal digits, followed by a final group of 12 hexadecimal digits. <i>Example: 123e4567-e89b-12d3-a456-3f26b14c74ae</i>. Field type: <span class="code">string</span>.
+      </li>
+      <li>
+        <b>Name: </b>Name of the customer. Field type: <span class="code">string</span>.
+      </li>
+      <li>
+        <b>Role: </b>Role of the customer. Field type: <span class="code">string</span>.
+      </li>
+      <li>
+        <b>Email: </b>Email of the customer. Field type: <span class="code">string</span>.
+      </li>
+      <li>
+        <b>Phone: </b>Phone of the customer. Field type: <span class="code">uint32</span> (32-bit unsigned int).
+      </li>
+      <li>
+        <b>Contacted: </b>Field that indicates whether or not the customer has been contacted, either true or false. Field type: <span class="code">bool</span>.
+      </li>
+    </ul>
+
+    <h2>REST API Documentation</h2>
+    <p>
+      The CRM backend application exposes a REST API with five endpoints. The operations availble to perform through the API, the endpoints used for each operation, and the way that the users are expected to interact with each endpoint, is listed in the following table:
+    </p>
+    <table>
+      <tr>
+        <th style="width:15%">Operation</th>
+        <th style="width:10%">Endpoint</th>
+        <th style="width:7%">HTTP Method</th>
+        <th style="width:25%">Usage</th>
+        <th style="width:23%">Example request</th>
+        <th style="width:20%">Response</th>
+      </tr>
+      <tr>
+        <td>Create a new customer</td>
+        <td><pre>/customers</pre></td>
+        <td class="centered-text">POST</td>
+        <td>
+          Send a POST request to the <span class="code">/customers</span> endpoint with a payload containing a JSON object with the data fields and their values for the new customer. Any field not passed in the payload will automatically be assigned the default/zero value for its Go type.
+        </td>
+        <td>
+          URL:
+          <pre>http://localhost:3000/customers</pre>
+          <br>
+          Payload:
+          <pre>
+{
+  "name": "Allison",
+  "role": "Software Engineer",
+  "email": "allison@example.com",
+  "phone": 5555129,
+  "contacted": true
+}
+          </pre>
+        </td>
+        <td>A JSON object with the data of the newly created
+          customer.</td>
+      </tr>
+      <tr>
+        <td>Retrieve the information of a single customer</td>
+        <td><pre>/customers/{id}</pre></td>
+        <td class="centered-text">GET</td>
+        <td>
+          Send a GET request to the <span class="code">/customers/{id}</span> endpoint, where <span class="code">{id}</span> is the UUID of the customer whose information wants to be retrieved.
+        </td>
+        <td>
+          URL:
+          <pre>http://localhost:3000/customers/
+1a46655d-1180-4f47-95dd-8d01b2ef2e67</pre>
+          <br>
+          Payload:
+          <pre>Not required</pre>
+        </td>
+        <td>
+          A JSON object with the information of the requested customer if its ID was found in the database, or an empty JSON object literal <span class="code">{}</span> in case the provided customer ID does not exists in the database.
+        </td>
+      </tr>
+      <tr>
+        <td>Retrieve the information of all the customers of the CRM</td>
+        <td><pre>/customers</pre></td>
+        <td class="centered-text">GET</td>
+        <td>
+          Send a GET request to the <span class="code">/customers</span> endpoint.
+        </td>
+        <td>
+          URL:
+          <pre>http://localhost:3000/customers</pre>
+          <br>
+          Payload:
+          <pre>Not required</pre>
+        </td>
+        <td>
+          A JSON array with the information of all the customers currently registered in the CRM's database, each customer returned in the JSON array as an object with the data fields of the customer.
+        </td>
+      </tr>
+      <tr>
+        <td>Update the information of a single customer</td>
+        <td><pre>/customers/{id}</pre></td>
+        <td class="centered-text">PUT</td>
+        <td>
+          Send a PUT request to the <span class="code">/customers/{id}</span> endpoint, where <span class="code">{id}</span> is the UUID of the customer whose information wants to be updated. The request should be sent with a payload having a JSON object containing just the data fields that the user wants to update for the customer, with their new values. All fields not present in the JSON object are ignored and their values remain unchanged in the CRM's database. As a note, the customer ID is never updated, even if it is sent in the JSON payload.
+        </td>
+        <td>
+          URL:
+          <pre>http://localhost:3000/customers/
+9a68906c-0d87-4371-afe9-5ddcb0e9c203</pre>
+          <br>
+          Payload:
+          <pre>
+{
+  "phone": 5550298,
+  "contacted": false
+}
+          </pre>
+        </td>
+        <td>
+          A JSON object containing all the data of the newly updated customer in case the passed customer ID was found in the database, or an empty JSON object literal <span class="code">{}</span> in case the provided customer ID does not exist in the database.
+        </td>
+      </tr>
+      <tr>
+        <td>Delete a customer from the CRM</td>
+        <td><pre>/customers/{id}</pre></td>
+        <td class="centered-text">DELETE</td>
+        <td>
+          Send a DELETE request to the <span class="code">/customers/{id}</span> endpoint, where <span class="code">{id}</span> is the UUID of the customer to be deleted.
+        </td>
+        <td>
+          URL:
+          <pre>http://localhost:3000/customers/
+c9cb0d43-ede4-49a9-9548-ad560a55ac1f</pre>
+          <br>
+          Payload:
+          <pre>Not required</pre>
+        </td>
+        <td>
+          If the provided customer ID was found in the database, the response contains a JSON array with all the current customer objects of the CRM, reflecting the deletion of the requested customer. If the provided customer ID was not found, then the response is an empty JSON object literal <span class="code">{}</span>.
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

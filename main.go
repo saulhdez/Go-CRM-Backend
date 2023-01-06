@@ -31,11 +31,11 @@ var customers = make(map[string]Customer)
 - Description: Serves an static HTML welcome page in the root route ("/").
 - Response content: The static HTML welcome page.
 */
-func index(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.WriteHeader(http.StatusOK)
-	http.ServeFile(w, r, "./static/index.html")
-}
+// func index(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+// 	w.WriteHeader(http.StatusOK)
+// 	http.ServeFile(w, r, "./static/index.html")
+// }
 
 /*
   - Function: getCustomersSlice
@@ -200,7 +200,7 @@ func updateCustomer(w http.ResponseWriter, r *http.Request) {
   - Response Content-Type: JSON
   - Description: Deletes a single customer from the CRM's database based on the
     customer ID passed as a URL paramater.
-  - Response content: If the provided customer ID is found in the database, the
+  - Response content: If the provided customer ID was found in the database, the
     handler returns a JSON array with all the customer objects (structs) of the
     CRM's database, reflecting the deletion of the requested customer. If the
     provided customer ID is not found, then the response is an empty JSON
@@ -256,7 +256,13 @@ func main() {
 
 	// Register the HTTP handlers to their respective endpoints/routes and to
 	// their assigned HTTP methods.
-	router.HandleFunc("/", index).Methods("GET")
+
+	fileServer := http.FileServer(http.Dir("./static"))
+	// router.Handle("/styles/", http.StripPrefix("/styles/", fileServer))
+	router.Handle("/", fileServer)
+
+	// router.HandleFunc("/", index)
+
 	router.HandleFunc("/customers", getCustomers).Methods("GET")
 	router.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 	router.HandleFunc("/customers", addCustomer).Methods("POST")

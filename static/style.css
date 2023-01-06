@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+	background-color: cornsilk;
+	padding: 1em;
+}
+
+h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 1.5em;
+}
+
+p {
+	text-indent: 2em;
+    line-height: 1.6;
+}
+
+li {
+    line-height: 1.6;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+    word-wrap: break-word;
+}
+
+td, th {
+	border: 1px solid #999999;
+	padding: 0.5em 0.75em 0.5em 0.75em;
+    line-height: 1.6;
+}
+
+th {
+    text-align: center;
+    background-color: peachpuff
+}
+
+td {
+    text-align: left;
+}
+
+td.centered-text {
+    text-align: center;
+}
+
+span.code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 85%;
+    background-color: #c7c7c7;
+    padding: 0.1em 0.4em 0.2em 0.4em;
+    border-radius: 6px;
+}
+
+pre {
+    margin: 0;
+}
