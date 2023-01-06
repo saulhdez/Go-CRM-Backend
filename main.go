@@ -31,11 +31,11 @@ var customers = make(map[string]Customer)
 - Description: Serves an static HTML welcome page in the root route ("/").
 - Response content: The static HTML welcome page.
 */
-// func index(w http.ResponseWriter, r *http.Request) {
-// 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-// 	w.WriteHeader(http.StatusOK)
-// 	http.ServeFile(w, r, "./static/index.html")
-// }
+func index(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	http.ServeFile(w, r, "./static/index.html")
+}
 
 /*
   - Function: getCustomersSlice
@@ -255,14 +255,8 @@ func main() {
 	port := "3000"
 
 	// Register the HTTP handlers to their respective endpoints/routes and to
-	// their assigned HTTP methods.
-
-	fileServer := http.FileServer(http.Dir("./static"))
-	// router.Handle("/styles/", http.StripPrefix("/styles/", fileServer))
-	router.Handle("/", fileServer)
-
-	// router.HandleFunc("/", index)
-
+	// their assigned HTTP methods
+	router.HandleFunc("/", index).Methods("GET")
 	router.HandleFunc("/customers", getCustomers).Methods("GET")
 	router.HandleFunc("/customers/{id}", getCustomer).Methods("GET")
 	router.HandleFunc("/customers", addCustomer).Methods("POST")
