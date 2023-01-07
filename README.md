@@ -24,26 +24,61 @@ As a note, the application just serves a backend API and does not have any front
 
 In order to run the application, the Go language needs to be installed. The application was written in the version **1.19.3** of Go, but it should work with any recent version of the language. You can download Go [here](https://go.dev/doc/install).
 
-Also, a code editor from which to compile and run the application is required. [Visual Studio Code](https://code.visualstudio.com/) together with the [Go extension](https://code.visualstudio.com/docs/languages/go) is a good option, but feel free to use your favorite editor. And in order to interact with the application as a user, you will need any utility software that allows you to make requests to a REST API, [Postman](https://www.postman.com/) or [cURL](https://curl.se/) are good options.
+After installing Go, a proper local Go Workspace directory structure needs to be established inside the GOPATH directory. For this, you need to first check the value of the GOPATH environment variable, which contains the path where the Go Workspace needs to be located. To do this, open any terminal of the operating system you are using and run the following command:
 
-In order for the application to compile, the two following third-party Go packages need to be installed:
+```
+go env GOPATH
+```
+
+The output will be something like `"C:\Users\UserName\go"`. It can be that the `go` folder is not already created in that directory, if not then create it. After this, please ensure that the following directory structure is there inside the go folder:
+
+```
+go\ <--- root of the go folder
+├── bin\
+├── pkg\
+└── src\
+    └── github.com\
+        └── saulhdez\
+```
+
+Next, **inside** the saulhdez folder, either clone this repo or download it and unzip it there. The final directory structure should look like this:
+
+```
+go\
+├── bin\
+├── pkg\
+└── src\
+    └── github.com\
+        └── saulhdez\
+            └── Go-CRM-Backend\
+```
+
+Now, in order for the application to compile and run, the two following third-party Go packages need to be installed:
 
 - [**gorilla/mux**](https://pkg.go.dev/github.com/gorilla/mux) package, which provides a custom HTTP router (or mux) able to perform HTTP method-based routing.
 - Google's [**uuid**](https://pkg.go.dev/github.com/google/uuid#section-readme) package, required to provide each of the CRM customers with an UUID.
 
-To install them, open a terminal, either from the OS you are using or Visual Studio Code's terminal (if you are using this IDE) and navigate to the root directory of the CRM backend project, then write the `go get` command followed by the URL of the package you want to install and hit enter. This will install the packages and make them available to be used in the application code:
+To install them, open a terminal and navigate to the root directory of the CRM Backend project, which is the root of the **"Go-CRM-Backend"** folder. Then run the following two `go get` commands, one for each of the required packages, this will install them and make them available to be used in the application code:
 
 ```
 go get github.com/gorilla/mux
 go get github.com/google/uuid
 ```
 
+Finally, in order to interact with the application as a user, you will need any utility software that allows you to make requests to a REST API. [Postman](https://www.postman.com/) or [cURL](https://curl.se/) are good options, you can download them using those links.
+
 ## Starting and using the application
 
-To start the application, open a terminal and navigate to the root directory of the CRM project, where the `main.go` file is located. Then, run the `go run main.go` command. This will start the server and make it start to listen for requests at port `3000`, which is the default (hardcoded) port for the server, although you can can change it in the `main.go` file to any other port if required.  
+To start the application, open a terminal and navigate to the root directory of the CRM Backend project, where the `main.go` file is located. Then, run the following command:
+
+```
+go run main.go
+```
+
+ This will start the server and make it start to listen for requests at port `3000`, which is the default (hardcoded) port for the server. In case you require to change the default port, you can change it in the `main.go` file using any code editor of your preference, like [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), etc.  
 
 After the server is started, the application can be accessed through http://localhost:3000 and REST requests can start to be made to its different API endpoints. As stated before, the home route of the server will serve an static HTML welcome page. In this page you can view the documentation of the REST API, which specifies the format of the JSON payloads that the API expects to receive and the way in which to pass URL variables for each of the API endpoints.
 
 ## Unit Tests
 
-Located at the root directory of the CRM project is the `main_test.go` file. This is a Go file containing basic unit tests for the CRM application, which just test that correct HTTP status codes and Content-Types are returned by the different API endpoints of the application in the server responses. This file is not of my authorship and was downloaded from the *Resources* section of the Udacity Golang Course.
+Located at the root directory of the CRM Backend project is the `main_test.go` file. This is a Go file containing basic unit tests for the CRM application, which just test that correct HTTP status codes and Content-Types are returned by the different API endpoints of the application in the server responses. This file is not of my authorship and was downloaded from the *Resources* section of the Udacity Golang Course.
